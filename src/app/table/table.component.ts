@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
 import { EmployeeDto } from '../../models/EmployeeDto';
 import { RouterLink } from '@angular/router';
+import { EmployeeService } from '../../services/employeeService/employee.service';
+import { Console, error } from 'console';
+import { SharedService } from '../../services/sharedService/shared.service';
 
 @Component({
   selector: 'app-table',
@@ -18,7 +21,7 @@ selectedIds:string[]=[]
 displayDiv:string=''
 isVisible:boolean=false;
 
-constructor(private renderer:Renderer2){
+constructor(private renderer:Renderer2,private employeeService:EmployeeService,private sharedService:SharedService){
 
     this.renderer.listen('body', 'click', this.onBodyClick.bind(this));
 }
@@ -87,5 +90,13 @@ getFloatingDiv(id:string)
     this.displayDiv=id;
     this.isVisible=true;
   }
+}
+DeleteEmployee(id:string)
+{
+  this.employeeService.DeleteEmployee(id).subscribe({
+    next:(data)=>{console.log(data)
+    this.sharedService.DataChangeEvent()},
+    error:(error)=>console.log(error)
+  });
 }
 }

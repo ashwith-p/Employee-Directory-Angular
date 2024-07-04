@@ -33,15 +33,17 @@ export class EmployeeService {
   }
 
   addEmployee(emp:Employee){
-    try
-    {
-      this.http.post<Employee>('https://localhost:7165/api/Employee/Create',emp);
-    }
-    catch(Exception){}
+
+      return this.http.post<Employee>('https://localhost:7165/api/Employee/Create',emp);
+    
   }
   updateEmployee(emp:Employee):Observable<Employee[]>
   {
     let url="https://localhost:7165/api/Employee/Edit/"+emp.Id;
     return this.http.put<Employee[]>(url,emp);
+  }
+  DeleteEmployee(id:string):Observable<any>
+  {
+    return this.http.delete<any>("https://localhost:7165/api/Employee/Delete/"+id)
   }
 }

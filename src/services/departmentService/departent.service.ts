@@ -17,7 +17,7 @@ export class DepartentService {
       return new Observable<any>;
     }
   }
-  async getAllDepartments():Promise<Observable<any[]>>{
+  getAllDepartments():Observable<any[]>{
     try
     {
       return this.http.get<any[]>('https://localhost:7165/api/Department/All');

@@ -9,7 +9,7 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
-  async getProjects():Promise<Observable<any[]>>{
+  getProjects():Observable<any[]>{
     try
     {
       return this.http.get<any[]>('https://localhost:7165/api/Project/All');

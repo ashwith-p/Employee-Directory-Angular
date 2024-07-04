@@ -18,7 +18,7 @@ export class RoleService {
     }
   }
 
-  async getAllRoles():Promise<Observable<any[]>>{
+  getAllRoles():Observable<any[]>{
     try
     {
       return this.http.get<any[]>('https://localhost:7165/api/Role/All');

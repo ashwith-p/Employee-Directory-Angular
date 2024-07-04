@@ -37,7 +37,7 @@
                 <div class="floating-div" [class.d-block]="displayDiv==employee.Id" >
                     <p routerLinkActive="active" [routerLink]="['/add-employee/view',employee.Id]"> View</p>
                     <p routerLinkActive="active" [routerLink]="['/add-employee/edit',employee.Id]">Edit</p>
-                    <p>Delete</p>
+                    <p (click)="DeleteEmployee(employee.Id)">Delete</p>
                 </div>
             </tr>
         

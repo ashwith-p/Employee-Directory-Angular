@@ -18,7 +18,7 @@ export class LocationService {
     }
   }
 
-  async getAllLocations():Promise<Observable<any[]>>{
+  getAllLocations():Observable<any[]>{
     try
     {
       return this.http.get<any[]>('https://localhost:7165/api/Location/All');

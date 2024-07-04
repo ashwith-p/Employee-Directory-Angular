@@ -55,10 +55,18 @@ export class AddemployeeComponent {
   
   async ngOnInit()
   {
-    this.projects=await firstValueFrom(await this.projectService.getProjects());
-    this.roles=await firstValueFrom(await this.roleService.getAllRoles());
-    this.departments=await firstValueFrom(await this.departmentService.getAllDepartments());
-    this.locations=await firstValueFrom(await this.locationService.getAllLocations());
+    this.projectService.getProjects().subscribe({
+      next:(data)=>this.projects=data
+    })
+    this.roleService.getAllRoles().subscribe({
+      next:(data)=>this.roles=data
+    })
+    this.departmentService.getAllDepartments().subscribe({
+      next:(data)=>this.departments=data
+    })
+    this.locationService.getAllLocations().subscribe({
+      next:(data)=>this.locations=data
+    })
     console.log(this.route.url)
     this.Url=(this.route.url).toString();
     console.log(this.Url);
@@ -130,13 +138,16 @@ export class AddemployeeComponent {
       emp.JoiningDate=emp.JoiningDate.split("-").reverse().join("/");
       if(this.Url=='/add-employee')
       {
-        this.employeeService.addEmployee(emp);
+        this.employeeService.addEmployee(emp).subscribe({
+          complete:()=>this.route.navigateByUrl('/')
+        });
         console.log(emp);
       }
       else if(this.Url.includes("edit"))
       {
         this.employeeService.updateEmployee(emp).subscribe({
-          next:(data)=>console.log(data)
+          next:(data)=>console.log(data),
+          complete:()=>this.route.navigateByUrl('/')
         })
       }
     } 

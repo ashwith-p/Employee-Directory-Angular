@@ -10,8 +10,9 @@ import { DepartentService } from '../../services/departmentService/departent.ser
 import { TableComponent } from '../table/table.component';
 import { LocationService } from '../../services/locationService/location.service';
 import { RoleService } from '../../services/roleService/role.service';
-import { Observable, catchError, firstValueFrom, map, of } from 'rxjs';
+import { Observable, Subscription, catchError, firstValueFrom, map, of } from 'rxjs';
 import { error } from 'node:console';
+import { SharedService } from '../../services/sharedService/shared.service';
 @Component({
   selector: 'app-employees',
   standalone: true,
@@ -38,15 +39,19 @@ export class EmployeesComponent {
   //employees:EmployeeDto[]=[]
   employees:EmployeeDto[]=[]
   dummyData:EmployeeDto[]=[]
+  dataChangeSubscription:Subscription|undefined;
   @ViewChild('statusref') statusRef: SelectdropdownComponent | undefined;
   @ViewChild('locationref') locationRef: SelectdropdownComponent | undefined;
   @ViewChild('departmentref') departmentRef: SelectdropdownComponent | undefined;
 
-  constructor(private employeeService: EmployeeService,private departmmentService:DepartentService ,private locationService:LocationService,private roleService:RoleService) { }
+  constructor(private employeeService: EmployeeService,private sharedService:SharedService) { }
 
   ngOnInit() {
   
     this.generateAlphabets();
+    this.dataChangeSubscription=this.sharedService.isDataChanged.subscribe({
+      next:()=>this.generateEmployeeTable()
+    })
     // this.employees=[
     //   {
     //     FirstName:"Ashwith",
